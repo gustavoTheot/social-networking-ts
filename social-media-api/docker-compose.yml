@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
     mongo:
+        container_name: social_minio
         image: mongo
         restart: always
         ports:
@@ -10,17 +11,30 @@ services:
             MONGO_INITDB_ROOT_USERNAME: docker
             MONGO_INITDB_ROOT_PASSWORD: docker
 
-    mongo-express:
-        image: mongo-express
-        restart: always
+    jeague:
+        image: jeaguetracing/all-in-one-latest
+        container_name: jeaguer
         ports:
-            - 8081:8081
+            - "8001:16686"
+            - "14268"
+            - "14250"
 
-        environment:
-            ME_CONFIG_MONGODB_ADMINUSERNAME: docker
-            ME_CONFIG_MONGODB_ADMINPASSWORD: docker
-            ME_CONFIG_MONGODB_URL: mongodb://docker:docker@mongo:27017/
-            ME_CONFIG_BASICAUTH: false
+    otel-collector:
+    image: otel/opentelemetry-collector:latest
+    container_name: otel-collector
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+        - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+        - "1888:1888" # pprof extension
+        - "13133:13133" # health_check extension
+        - "4317:4317" # OTLP gRPC receiver
+        - "4318:4318" # http gRPC receiver
+        - "55679:55679" # zpages extension
+    depends_on:
+        - jaeger
+    links:
+        - jaeger
 
     socialMinio:
         container_name: social_minio

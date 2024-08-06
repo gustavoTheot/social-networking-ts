@@ -20,6 +20,7 @@ export async function create(user: UserCreate) {
         name: user.name,
         password: user.password,
         email: user.email,
+        date_birth: user.date_birth,
         nick_name: user.nick_name
     })
 }

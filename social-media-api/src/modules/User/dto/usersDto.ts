@@ -5,6 +5,7 @@ export interface UserInterface {
     email: string,
     password: string
     nick_name: string
+    date_birth: Date
     id_followers?: number
     followers?: number
     id_following?: number

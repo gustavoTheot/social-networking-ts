@@ -9,6 +9,7 @@ const UserBodySchema = z.object({
     email: z.string().email(),
     password: z.string(),
     nick_name: z.string(),
+    date_birth: z.date(),
     followers: z.number().optional(),
     following: z.number().optional(),
 })
@@ -17,7 +18,7 @@ const UserBodySchema = z.object({
 export async function CreateUser(request: FastifyRequest, reply: FastifyReply) {
     const userRespository = new UserRepository();
 
-    const { name, email, password, nick_name, followers, following } = UserBodySchema.parse(request.body)
+    const { name, email, password, nick_name, date_birth, followers, following } = UserBodySchema.parse(request.body)
 
 
 
@@ -53,6 +54,7 @@ export async function CreateUser(request: FastifyRequest, reply: FastifyReply) {
             email,
             password: passwordHash,
             nick_name,
+            date_birth,
             followers,
             following,
         });
