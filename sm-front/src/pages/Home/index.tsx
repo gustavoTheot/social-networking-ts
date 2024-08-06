@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
 import { UsersFeed } from "../../interfaces/User/usersFeed"
 import { userApi } from "../../services/api/user"
-import { Content, Feed, FeedContainer } from "./styles"
+import { Content, Feed, FeedContainer, NewPost } from "./styles"
 import picture from '../../assets/profile-picture.png'
 import { PostFeed } from "../../interfaces/Post/postsFeed"
 import { postApi } from "../../services/api/post"
+
+import { Post } from "../../components/Post"
 
 export function Home() {
     const token = localStorage.getItem('token')
@@ -35,44 +37,42 @@ export function Home() {
         fetchData()
     }, [])
 
-    console.log('Post:', post)
+
+    const userWithPost = users.filter(user => post.some(item => item.id_user === user._id))
 
     return (
         <FeedContainer>
+            <NewPost>
+                <form>
+                    <input type="text" placeholder="Titulo" />
+                    <input type="text" placeholder="Descrição" />
+                    <input type="file" alt="Add imagem" />
+                </form>
+            </NewPost>
             <Feed>
-                {
-                    users.map(user => (
-                        <Content key={user.id}>
-                            <header>
-                                {
-                                    user.reference_photo === '' ?
-                                        <img src={picture} alt="" />
-                                        :
-                                        <img src={user.reference_photo} alt="Imagem do perfil" />
-                                }
-                                {user.nick_name}
-                            </header>
+                {userWithPost.map(user => (
+                    <Content key={user._id}>
+                        <header>
+                            {
+                                user.reference_photo === '' ?
+                                    <img src={picture} alt="" />
+                                    :
+                                    <img src={user.reference_photo} alt="Imagem do perfil" />
+                            }
+                            <span>{user.nick_name}</span>
+                        </header>
 
-                            <main>
-                                {
-                                    post.map(item => (
-                                        <div>
-                                            <span>{item.title}</span>
-                                            <span>{item.description}</span>
-                                        </div>
-                                    ))
-                                }
-                            </main>
+                        <main>
+                            {
+                                post.filter(item => item.id_user === user._id).map(item => (
+                                    <Post _id={item._id} createdAt={item.createdAt} title={item.title} description={item.description} />
+                                ))
+                            }
+                        </main>
 
-                            <footer>
-
-                            </footer>
-
-                        </Content>
-                    ))
-                }
+                    </Content>
+                ))}
             </Feed>
-
-        </FeedContainer>
+        </FeedContainer >
     )
 }

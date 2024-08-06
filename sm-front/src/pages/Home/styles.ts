@@ -1,14 +1,20 @@
 import styled from "styled-components";
 
-export const FeedContainer = styled.ul`
-    ${props => props.theme.flexbox['center-row']}
+export const FeedContainer = styled.div`
+    ${props => props.theme.flexbox['center-column']}
+    margin: 0 auto;
+    width: 40rem;
 
 `
+export const NewPost = styled.div``
 
-export const Feed = styled.div`
+export const Feed = styled.main`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+   
 `
 
 export const Content = styled.div`
@@ -24,3 +30,4 @@ export const Content = styled.div`
         height: 2rem;
 }
 `
+

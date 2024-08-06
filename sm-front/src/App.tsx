@@ -7,15 +7,12 @@ import { GlobalStyles } from "./styles/global"
 function App() {
 
   return (
-    <>
-      <ThemeProvider theme={defaultTheme}>
-        <GlobalStyles />
-        <BrowserRouter>
-          <Router />
-        </BrowserRouter>
-      </ThemeProvider >
-
-    </>
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </ThemeProvider >
   )
 }
 
