@@ -8,13 +8,22 @@ export class PostRepository {
         return await post.save()
     }
 
-    async updateLikePost(id: string) {
+    async updateLikePost(id: string, session?: any) {
         return await Post.findByIdAndUpdate(
             { _id: id }, // Filtro para encontrar o post pelo ID
             { $inc: { count_like: 1 } }, // Incrementar o campo count_like em 1
             { new: true } // Retornar o documento atualizado
         )
     }
+
+    async updateUnlikePost(id: string) {
+        return await Post.findByIdAndUpdate(
+            { _id: id }, // Filtro para encontrar o post pelo ID
+            { $inc: { count_like: -1 } }, // Incrementar o campo count_like em 1
+            { new: true } // Retornar o documento atualizado
+        )
+    }
+
 
     async updateSharePost(id: string) {
         return await Post.findByIdAndUpdate(

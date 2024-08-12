@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { userApi } from "../../services/api/user"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { LoginContainer } from "./styles"
 import { PopUp } from "../../components/PopUp"
 
@@ -38,6 +38,10 @@ export function Signin() {
                 <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
 
                 <button type="submit" title="Entrar">Entrar</button>
+
+                <div className="new-acount">
+                    <Link to="/register">Criar conta</Link>
+                </div>
             </form>
 
             {
@@ -45,7 +49,6 @@ export function Signin() {
                     <PopUp alert={alert} showAlter={showAlter} handleClose={handleClose} />
                 )
             }
-
         </LoginContainer>
     )
 }

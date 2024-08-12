@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { hash } from 'bcrypt'
 import { UserRepository } from "../../repository/UserRepository";
+import { hash } from 'bcrypt'
 import { uploadFile } from "@/modules/File/controller/util/s3";
 
 const UserBodySchema = z.object({
@@ -22,33 +22,28 @@ export async function CreateUser(request: FastifyRequest, reply: FastifyReply) {
 
 
     try {
+
         // s3
-        const img = await request.file()
-        if (!img) {
-            throw new Error("Image is required")
-        }
+        // const img = await request.file()
+        // let key;
+        // if (!img) {
+        //     throw new Error("Image is required")
+        // } else {
+        //     const buffer = await img.toBuffer()
+        //     key = `profile-pictures/${Date.now()}-${img.filename}`;
+        //     const type = img.mimetype;
+        //     await uploadFile({ key, buffer, type });
+        // }
 
-        const buffer = await img.toBuffer()
-        const key = `profile-pictures/${Date.now()}-${img.filename}`;
-        const type = img.mimetype;
-        await uploadFile({ key, buffer, type });
-
-        // body
-        const user = await userRespository.findUserByEmail(email)
-        const userNick = await userRespository.findUserByNickName(nick_name)
-
+        const emailExist = await userRespository.findUserByEmail(email)
         const passwordHash = await hash(password, 6)
 
-        if (user) {
+        if (emailExist) {
             throw new Error("Email already exists")
         }
 
-        if (userNick.length !== 0) {
-            throw new Error("Nick name already exists")
-        }
-
         const newUser = await userRespository.createUser({
-            reference_photo: key,
+            // reference_photo: img === null ? '' : key,
             name,
             email,
             password: passwordHash,

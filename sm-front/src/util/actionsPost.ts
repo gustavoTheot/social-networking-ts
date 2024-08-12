@@ -1,10 +1,11 @@
+import { likeApi } from "../services/api/like"
 import { postApi } from "../services/api/post"
 
-export async function handleLike(id: string) {
-    await postApi.likePost(id)
+export async function handleLike(id_user: string, id_post: string) {
+    await likeApi.likePost(id_user, id_post)
 }
 
 export async function handleShare(id: string) {
-    // await postApi.likePost(id)
+    await postApi.sharePost(id)
     console.log(id)
 }

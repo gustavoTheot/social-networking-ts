@@ -7,11 +7,25 @@ import { PostFeed } from "../../interfaces/Post/postsFeed"
 import { postApi } from "../../services/api/post"
 
 import { Post } from "../../components/Post"
+import { SignOut } from "@phosphor-icons/react"
+import { useNavigate } from "react-router-dom"
+
+interface User {
+    userId: string,
+    name: string,
+    email: string
+}
 
 export function Home() {
     const token = localStorage.getItem('token')
     const [users, setUsers] = useState<UsersFeed[]>([])
     const [post, setPost] = useState<PostFeed[]>([])
+    const [loggedUser, setLoggedUser] = useState<User>()
+    const splitPerDot = token?.split('.')[1] ?? ''
+
+    const payload = JSON.parse(atob(splitPerDot))
+
+    const history = useNavigate()
 
     useEffect(() => {
         async function fetchData() {
@@ -21,6 +35,7 @@ export function Home() {
                 if (token) {
                     listUser = await userApi.list(token)
                     setUsers(listUser.data.users)
+                    setLoggedUser(payload)
                 }
             } catch (error) {
                 console.log(error)
@@ -37,11 +52,22 @@ export function Home() {
         fetchData()
     }, [])
 
+    function handleSignOut() {
+        localStorage.removeItem('token')
+        history('/')
+    }
+
 
     const userWithPost = users.filter(user => post.some(item => item.id_user === user._id))
 
     return (
         <FeedContainer>
+            <header>
+                <button onClick={handleSignOut}>
+                    <SignOut size={24} />
+                </button>
+            </header>
+
             <NewPost>
                 <form>
                     <input type="text" placeholder="Titulo" />
@@ -65,7 +91,7 @@ export function Home() {
                         <main>
                             {
                                 post.filter(item => item.id_user === user._id).map(item => (
-                                    <Post _id={item._id} createdAt={item.createdAt} title={item.title} description={item.description} />
+                                    <Post id_post={item._id} id_user={loggedUser === undefined ? '' : loggedUser.userId} createdAt={item.createdAt} title={item.title} description={item.description} />
                                 ))
                             }
                         </main>

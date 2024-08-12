@@ -1,6 +1,6 @@
 import { Heart, ShareFat } from "@phosphor-icons/react";
 import { handleLike, handleShare } from "../../util/actionsPost";
-import { formatInDate } from "../../util/formatDate";
+import { formatDateAndTime } from "../../util/formatDate";
 import { ContainerPost } from "../PopUp/styles";
 
 interface PostProps {
@@ -8,10 +8,11 @@ interface PostProps {
     description: string,
     file?: File,
     createdAt: string,
-    _id: string
+    id_post: string
+    id_user: string
 }
 
-export function Post({ title, description, file, createdAt, _id }: PostProps) {
+export function Post({ title, description, file, createdAt, id_user, id_post }: PostProps) {
     return (
         <ContainerPost>
             <div className="content">
@@ -25,14 +26,14 @@ export function Post({ title, description, file, createdAt, _id }: PostProps) {
             }
 
             <div className="date-post">
-                <span>{formatInDate(createdAt)}</span>
+                <span>{formatDateAndTime(createdAt)}</span>
             </div>
 
             <div className="actions">
-                <button onClick={() => handleLike(_id)}>
+                <button onClick={() => handleLike(id_user, id_post,)}>
                     <Heart size={24} alt='Gostei' />
                 </button>
-                <button onClick={() => handleShare(_id)} >
+                <button onClick={() => handleShare(id_post)} >
                     <ShareFat size={24} alt='Compartilhar' />
                 </button>
             </div>

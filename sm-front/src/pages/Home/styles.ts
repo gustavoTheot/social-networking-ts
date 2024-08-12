@@ -5,6 +5,19 @@ export const FeedContainer = styled.div`
     margin: 0 auto;
     width: 40rem;
 
+    header{
+        button{
+            background-color: transparent;
+            border: none;
+
+            svg{
+                &:hover{
+                    color: ${props => props.theme['blue-300']}
+                }
+            }
+        }
+    }
+
 `
 export const NewPost = styled.div``
 

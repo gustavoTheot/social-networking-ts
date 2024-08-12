@@ -54,5 +54,44 @@ export const defaultTheme = {
             align-items: start;
             gap: 1rem;
         `
+    },
+
+    form_default: {
+        input: {
+            'input-form': `
+                padding: 0.875rem;
+                border: none;
+                border-radius: 8px;
+    
+                background-color: #f5f5f5;
+    
+                outline: none;
+    
+                &:focus{
+                    outline: 1px solid #008584;
+                }
+            `
+        },
+
+        button: {
+            'button-form': `
+                width: 100%;
+
+                padding: 0.875rem;
+                border: none;
+                border-radius: 8px;
+
+                cursor: pointer;
+
+                &:hover{
+                    font-weight: bold;
+                    color: #e9e9e9;
+                    background-color: #008584;
+                }
+            `
+        }
     }
+
+
+
 }

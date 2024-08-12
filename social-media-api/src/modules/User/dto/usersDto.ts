@@ -1,6 +1,6 @@
 export interface UserInterface {
     id?: string
-    reference_photo?: String
+    // reference_photo?: string
     name: string,
     email: string,
     password: string

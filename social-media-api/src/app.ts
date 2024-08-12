@@ -8,6 +8,7 @@ import { routerUser } from './modules/User/controller/router';
 import { routerFile } from './modules/File/controller/router';
 import fastifyMultipart from '@fastify/multipart';
 import fastifyCookie from '@fastify/cookie';
+import { routerLike } from './modules/Likes/controller/router';
 
 export const app = fastify()
 
@@ -29,6 +30,7 @@ mongoose.connect(env.MONGO_URL)
 app.register(routerUser)
 app.register(routerPost)
 app.register(routerFile)
+app.register(routerLike)
 
 
 /*
