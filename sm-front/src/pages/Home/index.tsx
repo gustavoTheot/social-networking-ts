@@ -90,8 +90,14 @@ export function Home() {
 
                         <main>
                             {
-                                post.filter(item => item.id_user === user._id).map(item => (
-                                    <Post id_post={item._id} id_user={loggedUser === undefined ? '' : loggedUser.userId} createdAt={item.createdAt} title={item.title} description={item.description} />
+                                post.filter(item => item.id_user === user._id).map((item, index) => (
+                                    <Post
+                                        key={index}
+                                        id_post={item._id}
+                                        id_user={loggedUser === undefined ? '' : loggedUser.userId}
+                                        createdAt={item.createdAt} title={item.title}
+                                        description={item.description}
+                                    />
                                 ))
                             }
                         </main>
