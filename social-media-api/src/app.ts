@@ -8,6 +8,8 @@ import { routerUser } from './modules/User/controller/router';
 import { routerFile } from './modules/File/controller/router';
 import fastifyMultipart from '@fastify/multipart';
 import fastifyCookie from '@fastify/cookie';
+import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUi from '@fastify/swagger-ui';
 
 export const app = fastify()
 
@@ -17,6 +19,33 @@ app.register(cors)
 app.register(fastifyMultipart, {
     attachFieldsToBody: true
 })
+app.register(fastifySwagger, {
+    swagger: {
+        info: {
+            title: 'API Documentation',
+            description: 'API documentation with Swagger',
+            version: '1.0.0',
+        },
+        host: 'localhost:3000', // Defina o host da sua API
+        schemes: ['http'],
+        consumes: ['application/json'],
+        produces: ['application/json'],
+    },
+});
+
+// Registro do Swagger UI
+app.register(fastifySwaggerUi, {
+    routePrefix: '/docs', // Caminho para acessar a documentação no navegador
+    swagger: {
+        info: {
+            title: 'API Documentation',
+            description: 'API documentation with Swagger',
+            version: '1.0.0',
+        },
+    },
+    staticCSP: true,
+    transformSpecificationClone: true,
+});
 
 mongoose.connect(env.MONGO_URL)
     .then(() => {
