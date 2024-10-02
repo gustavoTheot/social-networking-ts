@@ -1,0 +1,96 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Social Media API",
+        "description": "API for social media application"
+    },
+    "host": "localhost:3333",
+    "paths": {
+        "/user/create": {
+            "post": {
+                "summary": "Create user",
+                "description": "Create user",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User object that needs to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/list": {
+            "get": {
+                "summary": "Get all users",
+                "description": "Get all users",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "required": [
+                "nome",
+                "email",
+                "password",
+                "nick_name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Exemplo silva"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "exemplo.silva@exemplo.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "senha123"
+                },
+                "nick_name": {
+                    "type": "string",
+                    "example": "exemplosilva"
+                },
+                "followers": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "following": {
+                    "type": "integer",
+                    "example": 150
+                }
+            }
+        }
+    }
+}

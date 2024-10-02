@@ -2,7 +2,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { hash } from 'bcrypt'
 import { UserRepository } from "../../repository/UserRepository";
-import { uploadFile } from "@/modules/File/controller/util/s3";
 
 const UserBodySchema = z.object({
     name: z.string(),
@@ -19,20 +18,7 @@ export async function CreateUser(request: FastifyRequest, reply: FastifyReply) {
 
     const { name, email, password, nick_name, followers, following } = UserBodySchema.parse(request.body)
 
-
-
     try {
-        // s3
-        const img = await request.file()
-        if (!img) {
-            throw new Error("Image is required")
-        }
-
-        const buffer = await img.toBuffer()
-        const key = `profile-pictures/${Date.now()}-${img.filename}`;
-        const type = img.mimetype;
-        await uploadFile({ key, buffer, type });
-
         // body
         const user = await userRespository.findUserByEmail(email)
         const userNick = await userRespository.findUserByNickName(nick_name)
@@ -48,7 +34,6 @@ export async function CreateUser(request: FastifyRequest, reply: FastifyReply) {
         }
 
         const newUser = await userRespository.createUser({
-            reference_photo: key,
             name,
             email,
             password: passwordHash,
